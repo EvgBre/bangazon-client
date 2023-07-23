@@ -17,6 +17,11 @@ a {
   box-sizing: border-box;
 }
 
+.product-card-button {
+  background-color: black;
+  color: white;
+}
+
 body {
   background-color: #D9D9D9;
 }
