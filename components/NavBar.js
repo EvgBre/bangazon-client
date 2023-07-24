@@ -26,7 +26,7 @@ export default function NavBar() {
             <Link passHref href="/orders">
               <Nav.Link>Orders</Nav.Link>
             </Link>
-            <Link passHref href="/all-products">
+            <Link passHref href="/products/">
               <Nav.Link>All Products</Nav.Link>
             </Link>
             <Link passHref href="/order-products">
