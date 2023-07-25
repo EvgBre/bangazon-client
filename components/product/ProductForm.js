@@ -25,11 +25,11 @@ const ProductForm = ({ obj }) => {
       setCurrentProduct({
         id: obj.id,
         name: obj.name,
-        productImageUrl: obj.productImageUrl,
+        productImageUrl: obj.product_image_url,
         description: obj.description,
         price: obj.price,
-        categoryId: obj.categoryId,
-        addedOn: obj.addedOn,
+        categoryId: obj.category_id,
+        addedOn: obj.added_on,
       });
     }
   }, [obj, user]);
@@ -147,10 +147,10 @@ ProductForm.propTypes = {
   obj: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    productImageUrl: PropTypes.string,
+    product_image_url: PropTypes.string,
     description: PropTypes.string,
-    categoryId: PropTypes.object,
-    addedOn: PropTypes.string,
+    category_id: PropTypes.object,
+    added_on: PropTypes.string,
     price: PropTypes.number,
     sellerId: PropTypes.string,
   }),
