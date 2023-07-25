@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
 import { createProduct, updateProduct } from '../../api/productData';
+import { getCategories } from '../../api/categoryData';
 
 const initialState = {
   name: '',
@@ -12,11 +13,13 @@ const initialState = {
   description: '',
   price: 0,
   categoryId: '',
+  quantity: 0,
 };
 
 const ProductForm = ({ obj }) => {
   const [currentProduct, setCurrentProduct] = useState(initialState);
   const currentDate = new Date().toISOString().split('T')[0];
+  const [categories, setCategories] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -28,11 +31,17 @@ const ProductForm = ({ obj }) => {
         productImageUrl: obj.product_image_url,
         description: obj.description,
         price: obj.price,
+        quantity: obj.quantity,
         categoryId: obj.category_id,
         addedOn: obj.added_on,
+        sellerId: user.id,
       });
     }
   }, [obj, user]);
+
+  useEffect(() => {
+    getCategories().then(setCategories);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,10 +59,11 @@ const ProductForm = ({ obj }) => {
         name: currentProduct.name,
         productImageUrl: currentProduct.productImageUrl,
         description: currentProduct.description,
-        price: currentProduct.price,
+        price: Number(currentProduct.price),
         addedOn: currentProduct.addedOn,
-        categoryId: Number(currentProduct.categoryId),
-        sellerId: user.uid,
+        quantity: Number(currentProduct.quantity),
+        categoryId: currentProduct.categoryId,
+        sellerId: user.id,
       };
       updateProduct(productUpdate)
         .then(() => router.push(`/products/${obj.id}`));
@@ -62,13 +72,13 @@ const ProductForm = ({ obj }) => {
         name: currentProduct.name,
         productImageUrl: currentProduct.productImageUrl,
         description: currentProduct.description,
-        price: currentProduct.price,
+        price: Number(currentProduct.price),
         addedOn: currentDate,
-        categoryId: Number(currentProduct.categoryId),
-        sellerId: user.uid,
+        quantity: Number(currentProduct.quantity),
+        categoryId: currentProduct.categoryId,
+        sellerId: user.id,
       };
 
-      // Send currentProduct request to your API
       createProduct(product).then(() => router.push('/products/'));
     }
   };
@@ -102,9 +112,8 @@ const ProductForm = ({ obj }) => {
             onChange={handleChange}
             required
           />
-          {/* TODO: create the rest of the input fields */}
           <Form.Label>Category</Form.Label>
-          {/* <Form.Select
+          <Form.Select
             aria-label="categoryId"
             name="categoryId"
             onChange={handleChange}
@@ -121,11 +130,18 @@ const ProductForm = ({ obj }) => {
                     </option>
                   ))
                 }
-          </Form.Select> */}
-
+          </Form.Select>
+          <Form.Label>Quantity</Form.Label>
+          <Form.Control
+            name="quantity"
+            type="number"
+            required
+            value={currentProduct.quantity}
+            onChange={handleChange}
+          />
           <Form.Label>Price</Form.Label>
           <Form.Control
-            type="text"
+            type="number"
             style={{ height: '100px' }}
             name="price"
             value={currentProduct.price}
@@ -150,6 +166,7 @@ ProductForm.propTypes = {
     product_image_url: PropTypes.string,
     description: PropTypes.string,
     category_id: PropTypes.object,
+    quantity: PropTypes.number,
     added_on: PropTypes.string,
     price: PropTypes.number,
     sellerId: PropTypes.string,

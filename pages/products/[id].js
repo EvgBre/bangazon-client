@@ -12,7 +12,8 @@ const ViewProduct = () => {
   const deleteThisProduct = () => {
     if (window.confirm('Delete Product?')) {
       deleteProduct(id).then(() => {
-        ('Product Deleted');
+        alert('Product Deleted'); // Show a success message if needed
+        router.push('/products/'); // Redirect to '/products/' after deletion
       });
     }
   };
@@ -39,7 +40,6 @@ const ViewProduct = () => {
         </div>
       </div>
       <div className="d-flex">
-        {console.warn(user)}
         {user.uid === productDetails.seller_id?.uid
           ? (
             <>
