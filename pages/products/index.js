@@ -38,7 +38,7 @@ function AllProducts() {
         {products.map((product) => (
 
           <section key={`product--${product.id}`}>
-            <ProductCard id={product.id} name={product.name} productImageUrl={product.product_image_url} price={product.price} onUpdate={displayProducts} UserId={product.seller_id} />
+            <ProductCard id={product.id} name={product.name} categoryId={product.category_id} productImageUrl={product.product_image_url} description={product.description} price={product.price} quantity={product.quantity} addedOn={product.added_on} onUpdate={displayProducts} sellerId={product.seller_id} />
           </section>
 
         ))}
